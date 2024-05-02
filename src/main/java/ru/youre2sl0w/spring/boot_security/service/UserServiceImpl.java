@@ -15,12 +15,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    @Transactional
     public void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -31,12 +31,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
